@@ -3,14 +3,34 @@ import UserModel from "@/model/User";
 import bcrypt from "bcryptjs";
 
 import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
-import { Flamenco } from "next/font/google";
-import { messageSchema } from "@/schemas/messageSchema";
+import { signUpSchema } from "@/schemas/signUpSchema";
 
 export async function POST(request: Request) {
   await dbConnect();
 
   try {
     const { username, email, password } = await request.json();
+    const result = signUpSchema.safeParse({ username, email, password });
+    console.log(result);
+    if (!result.success) {
+      const signUpError =
+        result.error.format().username?._errors ||
+        result.error.format().email?._errors ||
+        result.error.format().password?._errors ||
+        [];
+        return Response.json(
+          {
+            success: false,
+            message:
+              signUpError?.length > 0
+                ? signUpError.join(",")
+                : "Invalid quary paramaters",
+          },
+          {
+            status: 400,
+          }
+        );
+    }
     const existingUserVerifiedByUsername = await UserModel.findOne({
       username,
       isVerified: true,
