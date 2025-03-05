@@ -11,25 +11,25 @@ export async function POST(request: Request) {
   try {
     const { username, email, password } = await request.json();
     const result = signUpSchema.safeParse({ username, email, password });
-    console.log(result);
+    // console.log(result);
     if (!result.success) {
       const signUpError =
         result.error.format().username?._errors ||
         result.error.format().email?._errors ||
         result.error.format().password?._errors ||
         [];
-        return Response.json(
-          {
-            success: false,
-            message:
-              signUpError?.length > 0
-                ? signUpError.join(",")
-                : "Invalid quary paramaters",
-          },
-          {
-            status: 400,
-          }
-        );
+      return Response.json(
+        {
+          success: false,
+          message:
+            signUpError?.length > 0
+              ? signUpError.join(",")
+              : "Invalid quary paramaters",
+        },
+        {
+          status: 400,
+        }
+      );
     }
     const existingUserVerifiedByUsername = await UserModel.findOne({
       username,
