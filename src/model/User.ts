@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { number, string } from "zod";
 
 export interface Message extends Document {
+  _id:string;
   content: string;
   createdAt: Date;
 }
