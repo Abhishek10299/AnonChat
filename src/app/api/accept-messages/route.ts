@@ -23,8 +23,8 @@ export async function POST(request: Request) {
   const userId = user?._id;
 
   try {
-    const { acceptMessage } = await request.json();
-    const result = acceptMessagesSchema.safeParse({ acceptMessage });
+    const { acceptMessages } = await request.json();
+    const result = acceptMessagesSchema.safeParse({ acceptMessages });
     if (!result.success) {
       const acceptMessagesSchemaError =
         result.error.format().acceptMessages?._errors || [];
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
     }
     const updatedUser = await UserModel.findByIdAndUpdate(
       userId,
-      { isAcceptingMessage: acceptMessage },
+      { isAcceptingMessage: acceptMessages },
       { new: true }
     );
     if (!updatedUser) {
