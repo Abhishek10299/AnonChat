@@ -30,19 +30,22 @@ export default function signin() {
   });
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
     setIsSubmitting(true);
-    const result = await signIn("credentials", {
-      redirect: false,
-      identifier: data.identifier,
-      password: data.password,
-    });
-    if (result?.error) {
-      toast.error("Incorrect username or password");
-    }
+    try {
+      const result = await signIn("credentials", {
+        redirect: false,
+        identifier: data.identifier,
+        password: data.password,
+      });
 
-    setIsSubmitting(true)
-
-    if(result?.url){
-      router.replace("/dashboard")
+      if (result?.error) {
+        toast.error("Incorrect username or password");
+      } else if (result?.url) {
+        router.replace("/dashboard");
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 

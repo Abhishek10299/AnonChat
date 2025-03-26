@@ -29,7 +29,7 @@ export default function VerifyAccount() {
       });
 
       toast.success(response.data.message);
-      router.replace("signin");
+      router.replace("/signin");
     } catch (error) {
       console.error("Error in signup of user", error);
       const axiosError = error as AxiosError<ApiResponse>;

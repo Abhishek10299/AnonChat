@@ -46,7 +46,7 @@ export default function MessageCard({
   };
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="card-bordered">
         <CardTitle>Card Title</CardTitle>
         <AlertDialog>
           <AlertDialogTrigger asChild>
