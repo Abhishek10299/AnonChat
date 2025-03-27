@@ -94,7 +94,7 @@ export default function signin() {
                   wait
                 </>
               ) : (
-                "Signip"
+                "Signin"
               )}
             </Button>
           </form>

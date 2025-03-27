@@ -1,7 +1,6 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -45,12 +44,13 @@ export default function MessageCard({
     }
   };
   return (
-    <Card>
-      <CardHeader className="card-bordered">
-        <CardTitle>Card Title</CardTitle>
+    <Card className="card-bordered">
+    <CardHeader>
+      <div className="flex justify-between items-center">
+        <CardTitle>{message.content}</CardTitle>
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="destructive">
+            <Button variant='destructive'>
               <X className="w-5 h-5" />
             </Button>
           </AlertDialogTrigger>
@@ -58,21 +58,33 @@ export default function MessageCard({
             <AlertDialogHeader>
               <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
               <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete your
-                account and remove your data from our servers.
+                This action cannot be undone. This will permanently delete
+                this message.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogCancel>
+                Cancel
+              </AlertDialogCancel>
               <AlertDialogAction onClick={handleDeleteConfirm}>
                 Continue
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
-        <CardDescription>Card Description</CardDescription>
-      </CardHeader>
-      <CardContent></CardContent>
-    </Card>
+      </div>
+      <div className="text-sm">
+        {new Intl.DateTimeFormat('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: true,
+        }).format(new Date(message.createdAt))}
+      </div>
+    </CardHeader>
+    <CardContent></CardContent>
+  </Card>
   );
 }
